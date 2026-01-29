@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMRIDDHI | National Digital Services</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* Trustworthy Blue Gov Theme - Refined */
+            --bg-grad-start: #EFF6FF;
+            /* Soft Blue */
+            --bg-grad-end: #F8FAFC;
+            /* Slate 50 */
+
+            --primary: #1565c0;
+            /* Official Blue */
+            --primary-light: #42a5f5;
+            --primary-dark: #0d47a1;
+
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            /* Softer shadow */
+            --glass-blur: blur(16px);
+
+            --accent-green: #2e7d32;
+            --accent-orange: #f57c00;
+
+            --text-main: #1e293b;
+            /* Slate 800 */
+            --text-muted: #64748b;
+            /* Slate 500 */
+            --radius-md: 16px;
+            /* Modern curves */
+        }
+
+        [data-theme="dark"] {
+            /* Night Blue Glass Theme */
+            --bg-grad-start: #0f172a;
+            /* Slate 900 */
+            --bg-grad-end: #1e293b;
+            /* Slate 800 */
+
+            --primary: #3b82f6;
+            /* Blue 500 */
+            --primary-light: #60a5fa;
+            --primary-dark: #2563eb;
+
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            /* Deep Navy Glass */
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+            --text-main: #f8fafc;
+            /* Slate 50 */
+            --text-muted: #94a3b8;
+            /* Slate 400 */
+
+            --accent-green: #34d399;
+            --accent-orange: #fbbf24;
+        }
+
+        /* Dark Mode Specific Overrides */
+        [data-theme="dark"] .glass-card,
+        [data-theme="dark"] .glass-panel,
+        [data-theme="dark"] nav,
+        [data-theme="dark"] footer,
+        [data-theme="dark"] .chat-window,
+        [data-theme="dark"] .chat-footer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .glass-card:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        [data-theme="dark"] .trust-strip {
+            background: rgba(255, 255, 255, 0.03);
+            color: #A9C1DD;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="dark"] .smart-select,
+        [data-theme="dark"] .lang-select,
+        [data-theme="dark"] .chat-input {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        [data-theme="dark"] .btn-outline {
+            background: transparent;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .section-header {
+            border-left-color: var(--primary);
+        }
+
+        [data-theme="dark"] h1,
+        [data-theme="dark"] h2,
+        [data-theme="dark"] h3,
+        [data-theme="dark"] h4 {
+            color: var(--text-main);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(180deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-bottom: 80px;
+            letter-spacing: -0.015em;
+            /* Modern tight tracking */
+            -webkit-font-smoothing: antialiased;
+            /* Crisp text */
+        }
+
+        /* --- COMPONENTS --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-card {
+            background: white;
+            border: 1px solid rgba(224, 224, 224, 0.8);
+            border-radius: 16px;
+            /* Modern aesthetic */
+            padding: 1.5rem;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            /* Subtle depth */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-enter {
+            animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 50px;
+            /* Pill Shape */
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            font-family: inherit;
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Subtle lift */
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+            margin-top: 2rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .lang-select {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.75rem 0;
+        }
+
+        .nav-link {
+            margin-left: 1.5rem;
+            color: #455a64;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Trust Strip */
+        .trust-strip {
+            background: #f0f7ff;
+            border-bottom: 1px solid #dcdcdc;
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            color: #555;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Quick Actions */
+        .quick-action-bar {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .quick-action:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: var(--primary);
+        }
+
+        /* Feature Card */
+        .feature-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border-left: 5px solid var(--accent-orange);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Dropdowns */
+        .smart-select {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Chatbot */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .chat-fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: var(--primary);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.4);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .chat-fab:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-window {
+            width: 360px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .chat-window.open {
+            display: flex;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f5f7f8;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .chat-bot {
+            background: white;
+            border: 1px solid #e0e0e0;
+            align-self: flex-start;
+        }
+
+        .chat-user {
+            background: #e3f2fd;
+            color: #0d47a1;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .chat-footer {
+            padding: 0.8rem;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .mic-active {
+            color: #d32f2f !important;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .cat-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: #e0e0e0;
+            color: #555;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        footer {
+            background: #1a237e;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Analytics Specific */
+        .metric-card {
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .metric-val {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 4px;
+            height: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            background: var(--primary);
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* --- SIDEBAR & NEW LAYOUT --- */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            background: var(--bg-grad-start);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 1rem 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.5rem;
+            color: #455a64;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-item:hover,
+        .sidebar-item.active {
+            background: #e3f2fd;
+            color: var(--primary);
+            border-left-color: var(--primary);
+            border-radius: 0 50px 50px 0;
+            /* Soft pill-end */
+            margin-right: 1rem;
+        }
+
+        .sidebar-item i {
+            width: 24px;
+            margin-right: 12px;
+            font-style: normal;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-main);
+            background: none;
+            border: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1050;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Responsive Sidebar */
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        /* Dark Mode Sidebar Overrides */
+        [data-theme="dark"] .sidebar {
+            background: var(--glass-bg);
+            border-right-color: var(--glass-border);
+        }
+
+        [data-theme="dark"] .sidebar-header {
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom-color: var(--glass-border);
+        }
+
+        [data-theme="dark"] .sidebar-item {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .sidebar-item:hover,
+        [data-theme="dark"] .sidebar-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-light);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }
+
+        [data-theme="dark"] .top-bar {
+            background: rgba(11, 28, 45, 0.8);
+            border-bottom-color: var(--glass-border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div
+                style="width:40px; height:40px; background:var(--primary); color:white; border-radius:8px; display:grid; place-items:center; font-size:1.5rem;">
+                🏛️</div>
+            <div>
+                <h2 style="font-size:1rem; margin:0; line-height:1.2;">SAMRIDDHI</h2>
+                <div style="font-size:0.7rem; opacity:0.7;">Unified Welfare Platform</div>
+                <div style="font-size:0.65rem; color:var(--primary); font-weight:600;">Govt. of India</div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <a class="sidebar-item active" onclick="Router.go('home')" id="nav-home"><i>🏠</i> Home</a>
+            <a class="sidebar-item" onclick="Router.go('schemes')" id="nav-schemes"><i>📋</i> All Schemes</a>
+            <a class="sidebar-item" onclick="Router.go('dashboard')" id="nav-dashboard"><i>📊</i> Dashboard</a>
+            <a class="sidebar-item" onclick="Router.go('healthcare')" id="nav-health"><i>🏥</i> Health Services</a>
+            <a class="sidebar-item" onclick="alert('Grievance Portal - Coming Soon')" id="nav-grievance"><i>⚠️</i>
+                Grievances</a>
+            <div style="height:1px; background:#e0e0e0; margin:0.5rem 1.5rem;"></div>
+            <a class="sidebar-item" onclick="ChatBot.toggle()"><i>🤖</i> AI Assistant</a>
+        </div>
+        <div style="padding: 1.5rem; font-size:0.75rem; color:#888;">
+            v2.0 Hackathon Build
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-content">
+        <!-- TOP NAV JOINT -->
+        <div class="top-bar">
+            <div class="flex items-center gap-3">
+                <button class="hamburger" onclick="toggleSidebar()">☰</button>
+                <div class="hamburger"
+                    style="display:block; font-size:1rem; font-weight:600; pointer-events:none; margin-left:0;">
+                    SAMRIDDHI</div>
+            </div>
+
+            <div class="flex gap-3 items-center">
+                <button class="btn btn-sm btn-outline" id="themeToggle" onclick="Theme.toggle()"
+                    style="border:none; font-size:1.2rem; background:transparent;" title="Toggle Theme">🌙</button>
+                <select class="lang-select" id="headerLang" onchange="Lang.set(this.value)">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="ta">தமிழ்</option>
+                </select>
+                <div style="width:35px; height:35px; background:var(--primary-light); color:white; border-radius:50%; display:grid; place-items:center; font-size:0.9rem; cursor:pointer;"
+                    title="User Profile">AV</div>
+            </div>
+        </div>
+
+        <!-- 3. TRUST STRIP -->
+        <div class="trust-strip">
+            <div class="trust-item"><span>🔐</span> Secure Platform</div>
+            <div class="trust-item"><span>🆔</span> Aadhaar Enabled</div>
+            <div class="trust-item"><span>📂</span> DigiLocker Integrated</div>
+            <div class="trust-item"><span>🇮🇳</span> Digital India Initiative</div>
+        </div>
+
+        <!-- CONTENT -->
+        <div id="app-root"></div>
+
+        <!-- CHATBOT -->
+        <div class="chat-widget">
+            <div class="chat-window" id="chatWin">
+                <div class="chat-header">
+                    <div><span>SAMRIDDHI Sahayak</span>
+                        <div style="font-size:0.7rem; opacity:0.8;" id="chatLang">EN</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="btn-text" id="voiceToggle" style="color:white; font-size:1.1rem; opacity:0.7;"
+                            onclick="ChatBot.toggleVoice()" title="Voice Response">🔇</button>
+                        <button class="btn-text" style="color:white; font-size:1.2rem;"
+                            onclick="ChatBot.toggle()">✕</button>
+                    </div>
+                </div>
+                <div class="chat-body" id="chatBody"></div>
+                <div class="chat-footer">
+                    <button class="btn-text" id="micBtn" style="font-size:1.3rem; color:#666;"
+                        onclick="ChatBot.listen()" title="Speak">🎤</button>
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type or Speak..."
+                        onkeypress="if(event.key==='Enter') ChatBot.send()">
+                    <button class="btn-text" style="font-size:1.2rem; color:var(--primary);"
+                        onclick="ChatBot.send()">➤</button>
+                </div>
+            </div>
+            <!-- 6. CHAT PROMPT -->
+            <div
+                style="position: absolute; right: 70px; bottom: 20px; background: #333; color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; white-space: nowrap; pointer-events:none;">
+                Need help? Ask SAMRIDDHI
+            </div>
+            <div class="chat-fab" onclick="ChatBot.toggle()">💬</div>
+        </div>
+
+        <!-- 8. FOOTER ENHANCED -->
+        <footer>
+            <div class="container text-center">
+                <p style="margin-bottom:0.5rem;">© 2026 SAMRIDDHI, Govt. of India. All rights reserved.</p>
+                <div style="opacity:0.7; font-size:0.8rem;">
+                    <span style="margin:0 10px;">Accessibility</span> |
+                    <span style="margin:0 10px;">Privacy Policy</span> |
+                    <span style="margin:0 10px;">Terms of Use</span> |
+                    <span style="margin:0 10px;">Help & Grievance</span>
+                </div>
+                <div
+                    style="margin-top:1rem; font-size:0.75rem; opacity:0.5; border-top:1px solid rgba(255,255,255,0.2); padding-top:0.5rem;">
+                    This portal is a demo created for hackathon purposes. No real data is processed.
+                </div>
+            </div>
+        </footer>
+
+    </div><!-- End Main Content -->
+    <div class="overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <script>
+        // --- DATA & DICTIONARIES ---
+        const Dictionary = {
+            en: {
+                nav_home: "Home", nav_schemes: "All Schemes", nav_dashboard: "Dashboard", gov_india: "Govt. of India",
+                hero_title: "National Digital Services", hero_desc: "Access 1,500+ Welfare Schemes securely.", btn_browse: "Browse Schemes",
+                sec_ws_title: "Welfare Schemes", sec_ws_desc: "Financial assistance and social security.",
+                ps_title: "Public Services", ps_view_all: "View All Services →",
+                card_cert_t: "Certificates", card_cert_d: "Apply for Income, Caste, Birth, Domicile.", btn_cert: "Apply Now",
+                card_schol_t: "Scholarships", card_schol_d: "Pre-Matric, Post-Matric schemes.", btn_schol: "Check Eligibility",
+                card_health_t: "Health & Wellness", card_health_d: "Find Health Camps, Jan Aushadhi Kendras.", btn_health: "Find Center",
+                card_ss_t: "Social Security", card_ss_d: "Old Age, Widow, Disability Pensions.", btn_ss: "Apply Benefits",
+                card_agri_t: "Agriculture", card_agri_d: "Kisan Credit Card, Crop Insurance.", btn_agri: "Farmer Portal",
+                card_emp_t: "Employment", card_emp_d: "Job exchange, Skill development.", btn_emp: "Search Jobs",
+                svc_title: "All Government Services & Schemes", svc_desc: "Access Aadhaar, certificates, scholarships, health, farmer, employment, and welfare services from one place.",
+                sec_id: "Identity & Documents", sec_cert: "Certificates", sec_sch: "Government Schemes",
+                btn_access: "Access Now", btn_apply: "Apply Now", btn_view: "View Details",
+                cat_agri: "Agriculture & Farmers", cat_edu: "Education & Students", cat_health: "Health & Wellness",
+                cat_welfare: "Women & Child Welfare", cat_ss: "Social Security & Pension", cat_emp: "Employment & Skill", cat_biz: "Business & Financial Inclusion",
+                // New Actions
+                qa_track: "Track App", qa_elig: "Check Eligibility", qa_upload: "Upload Docs", qa_talk: "Assistant",
+                feat_title: "Featured Schemes", elg_title: "Find Eligible Schemes", elg_desc: "Select your details to find relevant schemes.",
+                elg_btn: "Check Now",
+                bot_greet: "Namaste! I am Samriddhi Sahayak. I can guide you on Schemes, Aadhaar, PAN, and more.",
+                bot_fallback: "I didn't quite understand. Please ask specifically about 'Schemes', 'Aadhaar', 'PAN', or 'DigiLocker'.",
+                bot_aadhaar: "You can update Aadhaar details, lock/unlock biometrics, and link PAN under the 'Aadhaar Services' section.",
+                bot_pan: "You can apply for a new PAN, track application status, or link Aadhaar via the 'PAN Services' section.",
+                bot_digi: "DigiLocker allows you to securely access digital documents like marksheets and driving licenses.",
+                bot_cert: "You can apply for Income, Caste, Domicile, and Birth certificates in the 'Public Services' section > Certificates.",
+                bot_schemes: "We have schemes for Farmers, Students, and Women. Visit the 'All Schemes' page to browse.",
+                bot_scholarship: "Students can apply for Pre-Matric and Post-Matric scholarships in the 'Scholarships' section.",
+                bot_agri: "Farmers can access PM-KISAN, crop insurance, and soil health cards in the 'Agriculture' section.",
+                bot_status: "You can track your application status in the Dashboard using your Reference ID.",
+                bot_help: "I can help you with: Aadhaar, PAN, DigiLocker, Certificates, Scholarships, Agriculture Schemes, and Application Status.",
+                // New Home Sections
+                sec_elg_search_title: "Find Government Schemes for You", ph_search: "Search schemes, services, or enter Aadhaar...",
+                btn_check_elig: "Check Eligibility", sec_cat_title: "Discover Welfare Schemes by Category",
+                sec_pop_title: "Popular Government Schemes", sec_quick_svc: "All Services at Your Fingertips",
+                sec_grievance: "Your Voice Matters", sec_ai_help: "Need Help Finding the Right Scheme?",
+                // Health
+                h_title: "Health & Wellness Services", h_desc: "India's digital health ecosystem for citizens.",
+                sec_h_schemes: "Health Schemes", sec_h_facilities: "Find Facilities", sec_h_camps: "Health Camps", sec_h_records: "Health Records (ABHA)",
+                h_disc: "Disclaimer: Health information shown is for awareness only. This is a demo platform and does not replace professional medical advice.",
+                btn_book: "Book Now", btn_register: "Register"
+            },
+            hi: {
+                nav_home: "मुख्य पृष्ठ", nav_schemes: "सभी योजनाएं", nav_dashboard: "डैशबोर्ड", gov_india: "भारत सरकार",
+                hero_title: "राष्ट्रीय डिजिटल सेवाएं", hero_desc: "1,500+ कल्याणकारी योजनाओं तक सुरक्षित पहुंच।", btn_browse: "योजनाएं देखें",
+                sec_ws_title: "कल्याणकारी योजनाएं", sec_ws_desc: "वित्तीय सहायता और सामाजिक सुरक्षा।",
+                ps_title: "जन सेवाएं", ps_view_all: "सभी सेवाएं देखें →",
+                card_cert_t: "प्रमाण पत्र", card_cert_d: "आय, जाति, जन्म, निवास प्रमाण पत्र आवेदन।", btn_cert: "आवेदन करें",
+                card_schol_t: "छात्रवृत्ति", card_schol_d: "मैट्रिक-पूर्व, मैट्रिक-उत्तर योजनाएं।", btn_schol: "पात्रता जांचें",
+                card_health_t: "स्वास्थ्य", card_health_d: "स्वास्थ्य शिविर, जन औषधि केंद्र खोजें।", btn_health: "केंद्र खोजें",
+                card_ss_t: "सामाजिक सुरक्षा", card_ss_d: "वृद्धावस्था, विधवा, विकलांग पेंशन।", btn_ss: "लाभ आवेदन",
+                card_agri_t: "कृषि", card_agri_d: "किसान क्रेडिट कार्ड, फसल बीमा।", btn_agri: "किसान पोर्टल",
+                card_emp_t: "रोजगार", card_emp_d: "नौकरी विनिमय, कौशल विकास।", btn_emp: "नौकरियां खोजें",
+                svc_title: "सरकारी सेवाएं और योजनाएं", svc_desc: "आधार, प्रमाण पत्र, छात्रवृत्ति, स्वास्थ्य और कल्याणकारी सेवाओं तक पहुंच।",
+                sec_id: "पहचान और दस्तावेज", sec_cert: "प्रमाण पत्र", sec_sch: "सरकारी योजनाएं",
+                btn_access: "एक्सेस करें", btn_apply: "आवेदन करें", btn_view: "विवरण देखें",
+                cat_agri: "कृषि और किसान", cat_edu: "शिक्षा और छात्र", cat_health: "स्वास्थ्य और कल्याण",
+                cat_welfare: "महिला एवं बाल कल्याण", cat_ss: "सामाजिक सुरक्षा और पेंशन", cat_emp: "रोजगार और कौशल", cat_biz: "व्यवसाय और वित्तीय समावेशन",
+                qa_track: "ट्रैक करें", qa_elig: "पात्रता जांचें", qa_upload: "अपलोड करें", qa_talk: "सहायक",
+                feat_title: "प्रमुख योजनाएं", elg_title: "पात्र योजनाएं खोजें", elg_desc: "प्रासंगिक योजनाएं खोजने के लिए विवरण चुनें।",
+                elg_btn: "जांचें",
+                bot_greet: "नमस्ते! मैं समृद्धि सहायक हूँ। मैं योजनाओं, आधार, पैन आदि पर आपका मार्गदर्शन कर सकता हूँ।",
+                bot_fallback: "मुझे ठीक से समझ नहीं आया। कृपया 'योजना', 'आधार', 'पैन', 'डिजिलॉकर' या 'प्रमाण पत्र' के बारे में पूछें।",
+                bot_aadhaar: "आप 'आधार सेवा' अनुभाग के तहत विवरण अपडेट कर सकते हैं, आधार लॉक/अनलॉक कर सकते हैं और पैन लिंक कर सकते हैं।",
+                bot_pan: "आप नए पैन के लिए आवेदन कर सकते हैं, स्थिति ट्रैक कर सकते हैं, या आधार लिंक कर सकते हैं।",
+                bot_digi: "डिजिलॉकर आपको मार्कशीट और ड्राइविंग लाइसेंस जैसे डिजिटल दस्तावेजों तक सुरक्षित रूप से पहुंचने की अनुमति देता है।",
+                bot_cert: "आप 'जन सेवाएं' > 'प्रमाण पत्र' अनुभाग में आय, जाति, निवास और जन्म प्रमाण पत्र के लिए आवेदन कर सकते हैं।",
+                bot_schemes: "हमारे पास किसानों, छात्रों और महिलाओं के लिए योजनाएं हैं। देखने के लिए 'सभी योजनाएं' पृष्ठ पर जाएं।",
+                bot_scholarship: "छात्र 'छात्रवृत्ति' अनुभाग में मैट्रिक-पूर्व और मैट्रिक-उत्तर छात्रवृत्ति के लिए आवेदन कर सकते हैं।",
+                bot_agri: "किसान 'कृषि' अनुभाग में पीएम-किसान, फसल बीमा और मृदा स्वास्थ्य कार्ड का उपयोग कर सकते हैं।",
+                bot_status: "आप डैशबोर्ड में अपनी आवेदन स्थिति (स्टेटस) ट्रैक कर सकते हैं।",
+                bot_help: "मैं आपकी मदद कर सकता हूँ: आधार, पैन, डिजिलॉकर, प्रमाण पत्र, छात्रवृत्ति, कृषि योजनाएं और आवेदन स्थिति।",
+                sec_elg_search_title: "अपने लिए सरकारी योजनाएं खोजें", ph_search: "योजनाएं, सेवाएं खोजें या आधार दर्ज करें...",
+                btn_check_elig: "पात्रता जांचें", sec_cat_title: "श्रेणी के अनुसार कल्याणकारी योजनाएं खोजें",
+                sec_pop_title: "लोकप्रिय सरकारी योजनाएं", sec_quick_svc: "सभी सेवाएं आपकी उंगलियों पर",
+                sec_grievance: "आपकी राय मायने रखती है", sec_ai_help: "सही योजना खोजने में सहायता चाहिए?",
+                // Health
+                h_title: "राष्ट्रीय स्वास्थ्य पोर्टल", h_desc: "नागरिकों के लिए भारत का डिजिटल स्वास्थ्य पारिस्थितिकी तंत्र।",
+                sec_h_schemes: "स्वास्थ्य योजनाएं", sec_h_facilities: "अस्पताल खोजें", sec_h_camps: "स्वास्थ्य शिविर", sec_h_records: "डिजिटल स्वास्थ्य रिकॉर्ड (ABHA)",
+                h_disc: "अस्वीकरण: दिखाई गई स्वास्थ्य जानकारी केवल जागरूकता के लिए है। यह पेशेवर चिकित्सा सलाह का विकल्प नहीं है।",
+                btn_book: "बुक करें", btn_register: "पंजीकरण करें"
+            }
+        };
+
+        const LangUtils = { get: (c, k) => (Dictionary[c] && Dictionary[c][k]) ? Dictionary[c][k] : Dictionary['en'][k] };
+
+        const State = {
+            lang: 'en', user: 'Anjali Verma', voice: false,
+            data: {
+                schemes: [
+                    // Agriculture
+                    { id: "S1", title: "PM-KISAN", cat: "cat_agri", desc: "Income support of ₹6,000/yr for farmers." },
+                    { id: "S2", title: "PM Fasal Bima Yojana", cat: "cat_agri", desc: "Crop insurance against failure of crops." },
+                    { id: "S3", title: "Kisan Credit Card (KCC)", cat: "cat_agri", desc: "Short term credit for farmers." },
+                    { id: "S3A", title: "Soil Health Card", cat: "cat_agri", desc: "Crop-wise fertilizer recommendations." },
+                    { id: "S3B", title: "PM Krishi Sinchayee Yojana", cat: "cat_agri", desc: "Irrigation access assurance." },
+
+                    // Education
+                    { id: "S4", title: "Pre-Matric Scholarship", cat: "cat_edu", desc: "Financial aid for students (SC/ST/OBC)." },
+                    { id: "S5", title: "Post-Matric Scholarship", cat: "cat_edu", desc: "Support for higher education studies." },
+                    { id: "S5A", title: "NMMS", cat: "cat_edu", desc: "Means-cum-Merit Scholarship." },
+                    { id: "S5B", title: "PM Scholarship Scheme", cat: "cat_edu", desc: "For wards of Ex-Servicemen/Police." },
+
+                    // Health
+                    { id: "S6", title: "Ayushman Bharat (PM-JAY)", cat: "cat_health", desc: "Health cover of ₹5 Lakhs per family." },
+                    { id: "S7", title: "Janani Suraksha Yojana", cat: "cat_health", desc: "Safe motherhood intervention." },
+                    { id: "S7A", title: "National Health Mission", cat: "cat_health", desc: "Universal access to public health." },
+                    { id: "S7B", title: "Rashtriya Bal Swasthya", cat: "cat_health", desc: "Child health screening & early intervention." },
+                    { id: "S7C", title: "TB Mukt Bharat", cat: "cat_health", desc: "Nutritional support for TB patients." },
+
+                    // Women & Child
+                    { id: "S8", title: "Beti Bachao Beti Padhao", cat: "cat_welfare", desc: "Celebrate girl child & enable education." },
+                    { id: "S9", title: "Sukanya Samriddhi Yojana", cat: "cat_welfare", desc: "Small savings scheme for girl child." },
+                    { id: "S9A", title: "PM Matru Vandana Yojana", cat: "cat_welfare", desc: "Maternity benefit program." },
+                    { id: "S9B", title: "Ujjwala Yojana", cat: "cat_welfare", desc: "LPG connection for women." },
+
+                    // Social Security
+                    { id: "S10", title: "Old Age Pension", cat: "cat_ss", desc: "Pension for senior citizens." },
+                    { id: "S11", title: "Widow Pension", cat: "cat_ss", desc: "Financial support for widows." },
+                    { id: "S11A", title: "Disability Pension", cat: "cat_ss", desc: "Aid for differently-abled." },
+                    { id: "S11B", title: "Atal Pension Yojana", cat: "cat_ss", desc: "Pension for unorganized sector." },
+
+                    // Employment
+                    { id: "S12", title: "MGNREGA", cat: "cat_emp", desc: "100 days of guaranteed wage employment." },
+                    { id: "S13", title: "PM Kaushal Vikas Yojana", cat: "cat_emp", desc: "Skill certification scheme." },
+                    { id: "S13A", title: "DDU-GKY", cat: "cat_emp", desc: "Rural youth skills program." },
+
+                    // Business
+                    { id: "S14", title: "PM Mudra Yojana", cat: "cat_biz", desc: "Loans for non-corporate small biz." },
+                    { id: "S15", title: "Stand-Up India", cat: "cat_biz", desc: "Loans for SC/ST/Women entrepreneurs." },
+                    { id: "S15A", title: "Startup India", cat: "cat_biz", desc: "Boost for startup ecosystem." },
+                    { id: "S15B", title: "Jan Dhan Yojana", cat: "cat_biz", desc: "Financial inclusion for all." },
+                    { id: "S15C", title: "PM SVANidhi", cat: "cat_biz", desc: "Micro-credit for street vendors." },
+                ],
+                camps: [
+                    { t: "General Health Camp", l: "Community Hall, sec-4", d: "12 Feb", s: "Open" },
+                    { t: "Eye Checkup", l: "District Hospital", d: "14 Feb", s: "Open" },
+                    { t: "Polio Vaccination", l: "Primary School", d: "18 Feb", s: "Open" },
+                    { t: "Dental Surgery Camp", l: "City Dental College", d: "22 Feb", s: "Reg Closed" }
+                ],
+                facilities: [
+                    { n: "City Govt Hospital", t: "Hospital", d: "2.5 km", r: "4.2" },
+                    { n: "Jan Aushadhi Kendra #42", t: "Pharmacy", d: "1.0 km", r: "4.5" },
+                    { n: "Urban PHC", t: "Clinic", d: "0.5 km", r: "3.8" },
+                    { n: "Apex Diagnostic Lab", t: "Lab", d: "3.2 km", r: "4.0" }
+                ]
+            }
+        };
+
+        // --- LOGIC ---
+        const Lang = {
+            set: (c) => {
+                State.lang = c;
+                document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = LangUtils.get(c, el.getAttribute('data-i18n')));
+                document.getElementById('chatLang').innerText = c.toUpperCase();
+                Router.render();
+            }
+        };
+
+        const ChatBot = {
+            toggle: () => {
+                document.getElementById('chatWin').classList.toggle('open');
+                if (document.getElementById('chatBody').innerHTML === '') ChatBot.reply(LangUtils.get(State.lang, 'bot_greet'));
+            },
+            toggleVoice: () => {
+                State.voice = !State.voice;
+                const btn = document.getElementById('voiceToggle');
+                btn.innerText = State.voice ? '🔊' : '🔇';
+                btn.style.opacity = State.voice ? 1 : 0.7;
+            },
+            listen: () => {
+                if ('webkitSpeechRecognition' in window) {
+                    const r = new webkitSpeechRecognition();
+                    const localeMap = { 'en': 'en-IN', 'hi': 'hi-IN', 'te': 'te-IN', 'ta': 'ta-IN' };
+                    r.lang = localeMap[State.lang] || 'en-IN';
+                    const btn = document.getElementById('micBtn');
+                    btn.classList.add('mic-active');
+                    document.getElementById('chatInput').placeholder = "Listening...";
+                    r.onresult = (e) => {
+                        const txt = e.results[0][0].transcript;
+                        document.getElementById('chatInput').value = txt;
+                        ChatBot.send();
+                        btn.classList.remove('mic-active');
+                        document.getElementById('chatInput').placeholder = "Type or Speak...";
+                    };
+                    r.onerror = () => { btn.classList.remove('mic-active'); document.getElementById('chatInput').placeholder = "Type or Speak..."; };
+                    r.start();
+                } else alert("Voice not supported.");
+            },
+            send: () => {
+                const i = document.getElementById('chatInput');
+                if (!i.value.trim()) return;
+                const txt = i.value;
+                ChatBot.add(txt, 'user');
+                i.value = '';
+                setTimeout(() => ChatBot.process(txt), 500);
+            },
+            process: (txt) => {
+                const l = txt.toLowerCase();
+                let key = 'bot_fallback';
+                if (/hello|hi|namaste|नमस्ते/.test(l)) key = 'bot_greet';
+                else if (/help|madad|can you do/.test(l)) key = 'bot_help';
+                else if (/aadhaar|uidai/.test(l)) key = 'bot_aadhaar';
+                else if (/pan|tax/.test(l)) key = 'bot_pan';
+                else if (/digilocker|doc/.test(l)) key = 'bot_digi';
+                else if (/cert|income|caste|birth|domicile/.test(l)) key = 'bot_cert';
+                else if (/schol|student/.test(l)) key = 'bot_scholarship';
+                else if (/farm|agri|kisan|crop/.test(l)) key = 'bot_agri';
+                else if (/scheme|welfare/.test(l)) key = 'bot_schemes';
+                else if (/status|track|app/.test(l)) key = 'bot_status';
+                const replyTxt = LangUtils.get(State.lang, key);
+                ChatBot.add(replyTxt, 'bot');
+                if (State.voice) {
+                    const u = new SpeechSynthesisUtterance(replyTxt);
+                    u.lang = (State.lang === 'hi' ? 'hi-IN' : 'en-IN');
+                    window.speechSynthesis.speak(u);
+                }
+            },
+            reply: (t) => ChatBot.add(t, 'bot'),
+            add: (t, s) => {
+                const d = document.createElement('div'); d.className = `chat-msg chat-${s}`; d.innerText = t;
+                document.getElementById('chatBody').appendChild(d);
+                document.getElementById('chatBody').scrollTop = document.getElementById('chatBody').scrollHeight;
+            }
+        };
+
+        // --- VIEWS ---
+        const ServicesData = {
+            cert: { title: "Certificates", items: ["Income Certificate", "Caste Certificate", "Birth Certificate", "Domicile Certificate"] },
+            schol: { title: "Scholarships", items: ["Pre-Matric Scholarship", "Post-Matric Scholarship", "Merit-cum-Means"] },
+            health: { title: "Health Services", items: ["Find Health Camp", "Jan Aushadhi Kendra", "Book Appointment"] },
+            ss: { title: "Social Security", items: ["Old Age Pension", "Widow Pension", "Disability Aid"] },
+            agri: { title: "Agriculture", items: ["PM-KISAN", "Crop Insurance", "Soil Health Card"] },
+            emp: { title: "Employment", items: ["Job Exchange Registration", "Skill India Training", "MGNREGA"] }
+        };
+
+        const Views = {
+            home: () => {
+                const t = (k) => LangUtils.get(State.lang, k);
+                return `
+                <section class="container mt-8 mb-8">
+                    <div class="glass-panel" style="background: linear-gradient(90deg, #e3f2fd 0%, white 100%); padding:2.5rem;">
+                        <h1 style="font-size:2.5rem;" data-i18n="hero_title">${t('hero_title')}</h1>
+                        <p style="font-size:1.1rem; margin-bottom:1.5rem;" data-i18n="hero_desc">${t('hero_desc')}</p>
+                        
+                        <!-- 1. QUICK ACTIONS -->
+                        <div class="quick-action-bar" style="justify-content:flex-start; padding:0; gap:0.5rem;">
+                            <button class="quick-action" onclick="Router.go('dashboard')">🔍 ${t('qa_track')}</button>
+                            <button class="quick-action" onclick="document.getElementById('elg_sec').scrollIntoView({behavior:'smooth'})">🧾 ${t('qa_elig')}</button>
+                            <button class="quick-action" onclick="ChatBot.toggle()">🗣️ ${t('qa_talk')}</button>
+                            <button class="quick-action" onclick="Router.go('digilocker')">📄 ${t('qa_upload')}</button>
+                            <button class="quick-action" style="border-color:#2e7d32; color:#2e7d32;" onclick="Router.go('healthcare')">🏥 Health</button>
+                        </div>
+
+                        <button class="btn btn-primary mt-8" onclick="Router.go('schemes')" data-i18n="btn_browse">${t('btn_browse')}</button>
+                    </div>
+                </section>
+                
+                <!-- NEW HEALTHCARE SECTION -->
+                <section class="container mb-8">
+                    <div class="glass-panel" style="border-left:5px solid #2e7d32;">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 style="margin:0; color:#1b5e20;" data-i18n="h_title">${t('h_title')}</h2>
+                                <p style="margin:0; font-size:0.9rem; max-width:600px;" data-i18n="h_desc">${t('h_desc')}</p>
+                            </div>
+                            <button class="btn btn-sm btn-outline" onclick="Router.go('healthcare')">Access Portal &rarr;</button>
+                        </div>
+                        <div class="grid grid-4">
+                            <div class="glass-card" onclick="Router.go('healthcare')">
+                                <div style="font-size:1.8rem; margin-bottom:0.5rem; color:#2e7d32;">🏥</div>
+                                <h4 style="font-size:1rem;" data-i18n="sec_h_facilities">${t('sec_h_facilities')}</h4>
+                            </div>
+                             <div class="glass-card" onclick="Router.go('healthcare')">
+                                <div style="font-size:1.8rem; margin-bottom:0.5rem; color:#fbc02d;">💳</div>
+                                <h4 style="font-size:1rem;">Ayushman Bharat</h4>
+                            </div>
+                             <div class="glass-card" onclick="Router.go('healthcare')">
+                                <div style="font-size:1.8rem; margin-bottom:0.5rem; color:#1565c0;">📄</div>
+                                <h4 style="font-size:1rem;" data-i18n="sec_h_records">${t('sec_h_records')}</h4>
+                            </div>
+                             <div class="glass-card" onclick="Router.go('healthcare')">
+                                <div style="font-size:1.8rem; margin-bottom:0.5rem; color:#d84315;">💊</div>
+                                <h4 style="font-size:1rem;">Jan Aushadhi</h4>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 2. ELIGIBILITY CHECKER & FEATURED SCHEMES -->
+                <section class="container mb-8 grid grid-2" id="elg_sec">
+                    <div class="feature-card">
+                         <h3 data-i18n="elg_title">${t('elg_title')}</h3>
+                         <p style="font-size:0.9rem;" data-i18n="elg_desc">${t('elg_desc')}</p>
+                         <select class="smart-select"><option>Select Category (e.g. Student)</option><option>Student</option><option>Farmer</option><option>Senior Citizen</option></select>
+                         <select class="smart-select"><option>Select State</option><option>Delhi</option><option>Uttar Pradesh</option><option>Karnataka</option></select>
+                         <select class="smart-select"><option>Annual Income</option><option>< 2.5 Lakh</option><option>2.5 - 5 Lakh</option></select>
+                         <button class="btn btn-primary w-full mt-2" onclick="alert('Found 3 Matching Schemes:\n1. Pre-Matric Scholarship\n2. Skill India Training\n3. Digital Literacy Abhiyaan')" data-i18n="elg_btn">${t('elg_btn')}</button>
+                    </div>
+                    
+                    <div class="feature-card" style="border-left-color: var(--primary);">
+                         <h3 data-i18n="feat_title">${t('feat_title')}</h3>
+                         <div style="background:#f5f7fa; padding:1rem; border-radius:4px; margin-bottom:0.8rem;">
+                            <h4 style="margin:0; color:var(--primary);">PM-KISAN Samman Nidhi</h4>
+                            <p style="font-size:0.85rem; margin:0.3rem 0;">₹6,000/year support for all landholding farmers.</p>
+                            <button class="btn btn-sm btn-outline mt-2" onclick="alert('Viewing PM-KISAN')">View Details</button>
+                         </div>
+                         <div style="background:#f5f7fa; padding:1rem; border-radius:4px;">
+                            <h4 style="margin:0; color:var(--primary);">Ayushman Bharat</h4>
+                            <p style="font-size:0.85rem; margin:0.3rem 0;">₹5 Lakh health cover per family per year.</p>
+                            <button class="btn btn-sm btn-outline mt-2" onclick="alert('Viewing Ayushman Bharat')">View Details</button>
+                         </div>
+                    </div>
+                </section>
+
+                <section class="container mb-8">
+                    <div class="flex justify-between items-center section-header" style="border:none; padding:0; margin-bottom:1.5rem;">
+                        <h2 style="border-left:5px solid var(--primary); padding-left:1rem; margin:0;" data-i18n="ps_title">${t('ps_title')}</h2>
+                        <span style="color:var(--primary); cursor:pointer;" onclick="Router.go('schemes')" data-i18n="ps_view_all">${t('ps_view_all')}</span>
+                    </div>
+                    <div class="grid grid-3">
+                        ${[
+                        { i: '📄', t: 'card_cert_t', d: 'card_cert_d', b: 'btn_cert', k: 'cert' },
+                        { i: '🎓', t: 'card_schol_t', d: 'card_schol_d', b: 'btn_schol', k: 'schol' },
+                        { i: '🏥', t: 'card_health_t', d: 'card_health_d', b: 'btn_health', k: 'health' },
+                        { i: '👵', t: 'card_ss_t', d: 'card_ss_d', b: 'btn_ss', k: 'ss' },
+                        { i: '🚜', t: 'card_agri_t', d: 'card_agri_d', b: 'btn_agri', k: 'agri' },
+                        { i: '💼', t: 'card_emp_t', d: 'card_emp_d', b: 'btn_emp', k: 'emp' }
+                    ].map(x => `
+                            <div class="glass-card">
+                                <div><div class="card-icon">${x.i}</div><h4 data-i18n="${x.t}">${t(x.t)}</h4><p data-i18n="${x.d}">${t(x.d)}</p></div>
+                                <button class="btn btn-outline w-full" onclick="Router.go('service_cat', '${x.k}')" data-i18n="${x.b}">${t(x.b)}</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- 1. NEW ELIGIBILITY SEARCH -->
+                <section class="container mb-8">
+                    <div class="glass-panel" style="text-align:center;">
+                        <h2 data-i18n="sec_elg_search_title">${t('sec_elg_search_title')}</h2>
+                        <div style="max-width:600px; margin:1rem auto; display:flex; gap:0.5rem;">
+                            <input type="text" class="chat-input" style="border-radius:4px;" placeholder="${t('ph_search')}" data-i18n="ph_search">
+                            <button class="btn btn-primary" onclick="alert('Searching...')" data-i18n="btn_check_elig">${t('btn_check_elig')}</button>
+                        </div>
+                        <div class="flex gap-2 justify-center" style="font-size:0.9rem; color:#666;">
+                            <span>Filters:</span>
+                            <span class="badge">Category</span>
+                            <span class="badge">Income</span>
+                            <span class="badge">State</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. SCHEME CATEGORIES -->
+                <section class="container mb-8">
+                    <h3 class="section-header" data-i18n="sec_cat_title">${t('sec_cat_title')}</h3>
+                    <div class="grid grid-4" style="text-align:center;">
+                        ${['Healthcare', 'Education', 'Employment', 'Housing', 'Agriculture', 'Social Welfare', 'Women & Child', 'Financial Inclusion'].map(c => `
+                            <div class="glass-card" onclick="Router.go('schemes')" style="padding:1rem; min-height:100px; justify-content:center; align-items:center;">
+                                <div style="font-size:1.5rem; margin-bottom:0.5rem;">🏛️</div>
+                                <div style="font-weight:600;">${c}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- 3. POPULAR SCHEMES -->
+                <section class="container mb-8">
+                    <h3 class="section-header" data-i18n="sec_pop_title">${t('sec_pop_title')}</h3>
+                    <div class="grid grid-3">
+                        <div class="glass-card">
+                            <h4>PM-KISAN</h4>
+                            <div class="badge mb-2">Ministry of Agriculture</div>
+                            <p style="font-size:0.85rem;">Income support of ₹6,000/year.</p>
+                            <div class="flex justify-between items-center mt-2" style="font-size:0.8rem; color:#666;">
+                                <span>👥 11 Cr+ Beneficiaries</span>
+                            </div>
+                            <button class="btn btn-sm btn-outline w-full mt-2" onclick="alert('Opening PM-KISAN')">Check Eligibility</button>
+                        </div>
+                         <div class="glass-card">
+                            <h4>Ayushman Bharat</h4>
+                            <div class="badge mb-2">MoHFW</div>
+                            <p style="font-size:0.85rem;">₹5 Lakhs health insurance/family.</p>
+                            <div class="flex justify-between items-center mt-2" style="font-size:0.8rem; color:#666;">
+                                <span>👥 50 Cr+ Covered</span>
+                            </div>
+                            <button class="btn btn-sm btn-outline w-full mt-2" onclick="alert('Opening Ayushman Bharat')">Check Eligibility</button>
+                        </div>
+                         <div class="glass-card">
+                            <h4>Pradhan Mantri Awas Yojana</h4>
+                            <div class="badge mb-2">MoHUA</div>
+                            <p style="font-size:0.85rem;">Affordable housing for all.</p>
+                            <div class="flex justify-between items-center mt-2" style="font-size:0.8rem; color:#666;">
+                                <span>👥 3 Cr+ Houses</span>
+                            </div>
+                            <button class="btn btn-sm btn-outline w-full mt-2" onclick="alert('Opening PMAY')">Check Eligibility</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. NATIONAL METRICS -->
+                <section class="container mb-8">
+                    <div class="glass-panel" style="background:#1a237e; color:white; display:flex; justify-content:space-around; align-items:center; text-align:center;">
+                        <div><div style="font-size:2rem; font-weight:700;">1,500+</div><div style="font-size:0.8rem; opacity:0.8;">Total Schemes</div></div>
+                        <div><div style="font-size:2rem; font-weight:700;">₹25 Lakh Cr</div><div style="font-size:0.8rem; opacity:0.8;">Funds Disbursed</div></div>
+                        <div><div style="font-size:2rem; font-weight:700;">80 Cr+</div><div style="font-size:0.8rem; opacity:0.8;">Citizens Benefited</div></div>
+                    </div>
+                </section>
+
+                <!-- 5. SERVICES QUICK ACCESS -->
+                <section class="container mb-8">
+                    <h3 class="section-header" data-i18n="sec_quick_svc">${t('sec_quick_svc')}</h3>
+                    <div class="grid grid-4">
+                         <div class="glass-card" onclick="alert('Opening Aadhaar Services...')">
+                             <div class="card-icon">🆔</div><h4>Aadhaar Services</h4>
+                             <p style="font-size:0.8rem;">Update, Download, Lock</p>
+                         </div>
+                         <div class="glass-card" onclick="alert('Opening DigiLocker...')">
+                             <div class="card-icon">📂</div><h4>DigiLocker</h4>
+                             <p style="font-size:0.8rem;">Access Documents</p>
+                         </div>
+                         <div class="glass-card" onclick="alert('Opening Land Records...')">
+                             <div class="card-icon">🗺️</div><h4>Land Records</h4>
+                             <p style="font-size:0.8rem;">View ROR, Maps</p>
+                         </div>
+                         <div class="glass-card" onclick="alert('Opening PAN Services...')">
+                             <div class="card-icon">💳</div><h4>PAN Services</h4>
+                             <p style="font-size:0.8rem;">Apply, Link Aadhaar</p>
+                         </div>
+                    </div>
+                </section>
+
+                <!-- 6. GRIEVANCE -->
+                <section class="container mb-8">
+                    <div class="glass-panel" style="border-left:5px solid var(--accent-orange);">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h3 data-i18n="sec_grievance" style="margin:0; font-size:1.5rem;">${t('sec_grievance')}</h3>
+                                <p style="margin:0.5rem 0 0; opacity:0.8;">Citizen Grievance Redressal and Monitoring System (C-GRAMS)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-3 mb-6" style="gap:1rem;">
+                             <div style="background:rgba(239, 108, 0, 0.06); padding:1.2rem; border-radius:12px;">
+                                <div style="color:var(--accent-orange); font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">01. File</div>
+                                <div style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Register your complaint directly with the concerned department.</div>
+                             </div>
+                             <div style="background:rgba(239, 108, 0, 0.06); padding:1.2rem; border-radius:12px;">
+                                <div style="color:var(--accent-orange); font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">02. Track</div>
+                                <div style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Get a unique tracking ID and monitor real-time progress.</div>
+                             </div>
+                             <div style="background:rgba(239, 108, 0, 0.06); padding:1.2rem; border-radius:12px;">
+                                <div style="color:var(--accent-orange); font-weight:700; font-size:1.1rem; margin-bottom:0.5rem;">03. Resolve</div>
+                                <div style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Receive time-bound resolution and feedback mechanism.</div>
+                             </div>
+                        </div>
+
+                        <div class="flex gap-3 justify-end">
+                            <button class="btn btn-outline" onclick="alert('File Grievance')" style="border-color:var(--accent-orange); color:var(--accent-orange);">File New Grievance</button>
+                            <button class="btn btn-primary" onclick="alert('Track Grievance')" style="background:var(--accent-orange);">Track Status</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. AI ASSISTANCE -->
+                <section class="container mb-8" style="text-align:center;">
+                    <h3 data-i18n="sec_ai_help">${t('sec_ai_help')}</h3>
+                    <div class="flex gap-2 justify-center mt-4">
+                        <button class="btn btn-primary" onclick="ChatBot.toggle()">Start AI Assistant</button>
+                        <button class="btn btn-outline" onclick="alert('Calling Helpline 14433...')">Call Helpline 14433</button>
+                    </div>
+                </section>
+            `;
+            },
+            schemes: () => {
+                const t = (k) => LangUtils.get(State.lang, k);
+                const sData = State.data.schemes;
+                const getSchemesByCat = (c) => sData.filter(x => x.cat === c);
+                const renderCat = (catKey, icon) => {
+                    const schemes = getSchemesByCat(catKey);
+                    if (schemes.length === 0) return '';
+                    return `
+                        <div class="mb-8">
+                            <h3 class="section-header" style="margin-bottom:1rem; border-color:var(--primary); display:flex; align-items:center; gap:0.5rem;">${icon} <span data-i18n="${catKey}">${t(catKey)}</span></h3>
+                            <div class="grid grid-3">
+                                ${schemes.map(s => `
+                                    <div class="glass-card" onclick="alert('Viewing: ${s.title}')">
+                                        <h4 style="color:var(--primary-dark);">${s.title}</h4>
+                                        <p style="font-size:0.85rem; margin-bottom:1rem;">${s.desc}</p>
+                                        <div style="margin-top:auto;">
+                                            <span style="color:var(--primary); font-size:0.8rem; font-weight:600; cursor:pointer;">${t('btn_view')} &rarr;</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                };
+
+                return `
+                    <div class="container mt-8">
+                        <!-- HEADER -->
+                        <div class="glass-panel text-center" style="padding:3rem 1rem; margin-bottom:3rem; border-bottom:4px solid var(--primary);">
+                            <h1 style="font-size:2.2rem; color:var(--primary-dark);" data-i18n="svc_title">${t('svc_title')}</h1>
+                            <p style="max-width:700px; margin:0.5rem auto 0; font-size:1.1rem; color:#546e7a;" data-i18n="svc_desc">${t('svc_desc')}</p>
+                        </div>
+
+                        <!-- 1. IDENTITY & DOCUMENTS -->
+                        <h2 class="section-header" data-i18n="sec_id">${t('sec_id')}</h2>
+                        <div class="grid grid-3 mb-8">
+                            <!-- Aadhaar -->
+                            <div class="glass-card" onclick="alert('Aadhaar Services: Update, Lock, Link')">
+                                <div class="card-icon" style="color:var(--primary);">🆔</div>
+                                <h4>Aadhaar Services</h4>
+                                <ul style="font-size:0.85rem; color:#555; list-style-type:disc; padding-left:1.2rem; margin-bottom:1.2rem; line-height:1.8;">
+                                    <li>Update details</li>
+                                    <li>Lock / Unlock</li>
+                                    <li>Link Aadhaar with PAN</li>
+                                </ul>
+                                <button class="btn btn-sm btn-outline w-full" style="margin-top:auto;">Access Service</button>
+                            </div>
+                            
+                            <!-- DigiLocker -->
+                            <div class="glass-card" onclick="alert('DigiLocker: Access, Upload')">
+                                <div class="card-icon" style="color:#2980b9;">🔐</div>
+                                <h4>DigiLocker</h4>
+                                <ul style="font-size:0.85rem; color:#555; list-style-type:disc; padding-left:1.2rem; margin-bottom:1.2rem; line-height:1.8;">
+                                    <li>Access documents</li>
+                                    <li>Upload documents</li>
+                                    <li>Use for applications</li>
+                                </ul>
+                                <button class="btn btn-sm btn-outline w-full" style="margin-top:auto;">Access Service</button>
+                            </div>
+
+                            <!-- PAN -->
+                            <div class="glass-card" onclick="alert('PAN Services: Apply, Update')">
+                                <div class="card-icon" style="color:#e67e22;">💳</div>
+                                <h4>PAN Services</h4>
+                                <ul style="font-size:0.85rem; color:#555; list-style-type:disc; padding-left:1.2rem; margin-bottom:1.2rem; line-height:1.8;">
+                                    <li>Apply new PAN</li>
+                                    <li>Update PAN</li>
+                                    <li>Link PAN with Aadhaar</li>
+                                </ul>
+                                <button class="btn btn-sm btn-outline w-full" style="margin-top:auto;">Access Service</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 2. CERTIFICATES -->
+                        <h2 class="section-header" data-i18n="sec_cert">${t('sec_cert')}</h2>
+                        <div class="grid grid-4 mb-8">
+                            ${['Income', 'Caste', 'Domicile', 'Birth'].map(c => `
+                                <div class="glass-card" onclick="alert('Apply for ${c} Certificate')">
+                                    <div style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--primary);">📜</div>
+                                    <h4 style="font-size:1.1rem;">${c} Certificate</h4>
+                                    <p style="font-size:0.8rem; margin-bottom:1rem;">Apply & Track Status</p>
+                                    <button class="btn btn-sm btn-primary w-full" style="margin-top:auto;">${t('btn_apply')}</button>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- 3. SCHEMES -->
+                        <div style="margin-top:4rem;">
+                            <h2 style="text-align:center; margin-bottom:2rem; font-size:2rem; color:var(--text-main);" data-i18n="sec_sch">${t('sec_sch')}</h2>
+                            ${renderCat('cat_agri', '🌾')}
+                            ${renderCat('cat_edu', '🎓')}
+                            ${renderCat('cat_health', '🏥')}
+                            ${renderCat('cat_welfare', '👩')}
+                            ${renderCat('cat_ss', '👵')}
+                            ${renderCat('cat_emp', '💼')}
+                            ${renderCat('cat_biz', '💰')}
+                        </div>
+                    </div>
+                `;
+            },
+            service_cat: (id) => {
+                const s = ServicesData[id];
+                return `
+                    <div class="container mt-8">
+                        <div style="margin-bottom:1rem;"><a onclick="Router.go('home')" style="color:var(--primary);cursor:pointer;">Home</a> > ${s.title}</div>
+                        <div class="glass-panel">
+                            <h2>${s.title}</h2><p>Select a service to proceed:</p>
+                            <ul class="service-list">
+                                ${s.items.map(i => `<li><div class="flex justify-between items-center"><h4>${i}</h4><button class="btn btn-sm btn-primary" onclick="alert('Starting Application: ${i}')">Apply</button></div></li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            },
+            dashboard: () => `
+                <div class="container mt-8">
+                    <!-- User Welcome (Unchanged) -->
+                    <div class="glass-panel mb-8">
+                        <h2>Dashboard</h2>
+                        <p>Welcome, Anjali Verma. Reference ID: <span style="font-family:monospace; background:#e0e0e0; padding:2px 6px;">SAM-2026-X892</span></p>
+                    </div>
+
+                    <!-- TITLE FOR ANALYTICS -->
+                    <div class="mb-6 pb-2" style="border-bottom: 2px solid #e0e0e0;">
+                        <h2 style="margin:0; color:var(--primary-dark);">Usage Analytics (Demo)</h2>
+                        <p style="font-size:0.9rem; color:#666;">Real-time platform impact and citizen engagement insights for administrators.</p>
+                    </div>
+
+                    <!-- 1. PLATFORM OVERVIEW (COUNTERS) -->
+                     <div class="grid grid-3 mb-8">
+                        ${[
+                    { l: 'Total Visitors', v: '2,845,102', i: '👥' },
+                    { l: 'Service Requests', v: '1,204,500', i: '📝' },
+                    { l: 'Scheme Views', v: '4,850,220', i: '👁️' },
+                    { l: 'Applications Started', v: '890,000', i: '▶️' },
+                    { l: 'Applications Submitted', v: '645,200', i: '✅' }
+                ].map(m => `
+                            <div class="glass-card metric-card" style="padding:1.5rem;">
+                                <div style="font-size:2rem; margin-bottom:0.5rem;">${m.i}</div>
+                                <div class="metric-val" style="font-size:1.8rem;">${m.v}</div>
+                                <div class="metric-label">${m.l}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="grid grid-2 mb-8">
+                        <!-- 2. MOST USED SERVICES -->
+                        <div class="glass-panel">
+                            <h3>Most Used Services</h3>
+                            <p style="font-size:0.85rem; color:#666; margin-bottom:1rem;">Top utilized citizen services this month.</p>
+                            <div class="mt-4">
+                                ${[
+                    { n: 'Aadhaar Services', v: 94 },
+                    { n: 'DigiLocker Access', v: 88 },
+                    { n: 'PAN Services', v: 76 },
+                    { n: 'Certificates (Income/Caste)', v: 72 },
+                    { n: 'Scholarships', v: 65 },
+                    { n: 'Health (Ayushman Bharat)', v: 58 },
+                    { n: 'Employment (MGNREGA)', v: 45 }
+                ].map(s => `
+                                    <div class="mb-3">
+                                        <div class="stat-row"><span>${s.n}</span><span>${s.v}%</span></div>
+                                        <div class="progress-bar"><div class="progress-fill" style="width:${s.v}%"></div></div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- 3. SCHEME INTEREST BY DOMAIN -->
+                        <div class="glass-panel">
+                            <h3>Scheme Interest by Domain</h3>
+                            <p style="font-size:0.85rem; color:#666; margin-bottom:1rem;">Traffic and application intent by sector.</p>
+                            <div class="mt-4" style="display:grid; gap:0.8rem;">
+                                ${[
+                    { d: 'Agriculture & Farmers', views: '1.2M', apps: '450K' },
+                    { d: 'Education & Students', views: '980K', apps: '320K' },
+                    { d: 'Health & Wellness', views: '850K', apps: '210K' },
+                    { d: 'Women & Child Welfare', views: '760K', apps: '180K' },
+                    { d: 'Social Security', views: '640K', apps: '150K' },
+                    { d: 'Employment', views: '550K', apps: '120K' },
+                    { d: 'Business & Finance', views: '420K', apps: '90K' }
+                ].map(d => `
+                                    <div style="background:#f9f9f9; padding:0.8rem; border-radius:4px; display:flex; justify-content:space-between; align-items:center; border-left:3px solid var(--primary);">
+                                        <div style="font-weight:600; font-size:0.9rem;">${d.d}</div>
+                                        <div style="text-align:right; font-size:0.85rem; color:#555; display:flex; gap:1rem;">
+                                            <div title="Views">👁️ <strong>${d.views}</strong></div>
+                                            <div title="Applications">📝 <strong>${d.apps}</strong></div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-2 mb-8">
+                        <!-- 4. CHATBOT ANALYTICS -->
+                        <div class="glass-panel">
+                            <h3>🤖 Chatbot Engagement</h3>
+                             <div class="grid grid-2 mt-6 text-center mb-6">
+                                <div><div class="metric-val" style="font-size:2rem;">145K+</div><div class="metric-label">Total Interactions</div></div>
+                                <div><div class="metric-val" style="font-size:2rem; color:#2e7d32;">92%</div><div class="metric-label">Success Rate</div></div>
+                             </div>
+                             <div class="mb-6 px-4">
+                                <div class="stat-row"><span>Resolved without Human Help</span><span>88%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width:88%; background:#2e7d32;"></div></div>
+                             </div>
+                             <h4 style="font-size:0.9rem; color:#666; margin-bottom:0.8rem;">Most Asked Topics</h4>
+                             <div class="flex gap-2 flex-wrap">
+                                <span class="cat-badge">Schemes (42%)</span>
+                                <span class="cat-badge">Aadhaar (28%)</span>
+                                <span class="cat-badge">Certificates (18%)</span>
+                                <span class="cat-badge">Scholarships (12%)</span>
+                             </div>
+                        </div>
+
+                         <!-- 5 & 6. LANGUAGES & ACCESSIBILITY -->
+                         <div class="glass-panel">
+                             <h3>🌍 Inclusivity & Accessibility</h3>
+                             <div class="mb-6">
+                                <h4 style="font-size:0.9rem; color:#666; margin-bottom:0.5rem;">Language Breakdown</h4>
+                                <div style="display:flex; height:24px; border-radius:12px; overflow:hidden; margin-bottom:0.8rem;">
+                                    <div style="width:35%; background:#1976d2;" title="Hindi 35%"></div>
+                                    <div style="width:25%; background:#42a5f5;" title="English 25%"></div>
+                                    <div style="width:10%; background:#ef6c00;" title="Telugu 10%"></div>
+                                    <div style="width:10%; background:#ffa726;" title="Tamil 10%"></div>
+                                    <div style="width:5%; background:#7e57c2;" title="Kannada"></div>
+                                    <div style="width:5%; background:#ab47bc;" title="Malayalam"></div>
+                                    <div style="width:5%; background:#ec407a;" title="Marathi"></div>
+                                    <div style="width:5%; background:#78909c;" title="Bengali"></div>
+                                </div>
+                                <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
+                                    <span style="display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:50%; background:#1976d2;"></div> Hindi (35%)</span>
+                                    <span style="display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:50%; background:#42a5f5;"></div> English (25%)</span>
+                                    <span style="display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:50%; background:#ef6c00;"></div> Telugu (10%)</span>
+                                    <span style="display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:50%; background:#ffa726;"></div> Tamil (10%)</span>
+                                    <span style="display:flex; align-items:center; gap:4px;"><div style="width:8px; height:8px; border-radius:50%; background:#7e57c2;"></div> Reg (20%)</span>
+                                </div>
+                             </div>
+                             
+                             <div style="border-top:1px solid #e0e0e0; padding-top:1rem;">
+                                <h4 style="font-size:0.9rem; color:#666; margin-bottom:1rem;">Digital Inclusion Metrics</h4>
+                                <div class="flex items-center justify-around">
+                                    <div class="text-center">
+                                        <div style="font-size:2rem; margin-bottom:0.2rem;">🎙️</div>
+                                        <div style="font-weight:700; font-size:1.2rem;">24%</div>
+                                        <div style="font-size:0.75rem; color:#666;">Voice Enabled</div>
+                                    </div>
+                                    <div style="height:40px; border-left:1px solid #ddd;"></div>
+                                    <div class="text-center">
+                                        <div style="font-size:2rem; margin-bottom:0.2rem;">🔊</div>
+                                        <div style="font-weight:700; font-size:1.2rem;">12%</div>
+                                        <div style="font-size:0.75rem; color:#666;">Screen Reader</div>
+                                    </div>
+                                    <div style="height:40px; border-left:1px solid #ddd;"></div>
+                                    <div class="text-center">
+                                        <div style="font-size:2rem; margin-bottom:0.2rem;">⚖️</div>
+                                        <div style="font-weight:700; font-size:1.2rem;">8%</div>
+                                        <div style="font-size:0.75rem; color:#666;">High Contrast</div>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <!-- JUDGE TALKING POINT -->
+                     <div class="glass-panel text-center" style="background:#f0f7ff; border:1px dashed #1565c0; margin-top:2rem;">
+                        <p style="font-style:italic; color:#1565c0; font-weight:500; font-size:1rem; margin:0;">
+                            “This analytics dashboard helps administrators understand citizen needs, optimize services, and ensure inclusive digital governance — all while respecting privacy.”
+                        </p>
+                    </div>
+                </div>
+            `
+        };
+
+        const Router = {
+            current: 'home', param: null,
+            go: (r, p) => {
+                Router.current = r;
+                Router.param = p;
+                Router.render();
+
+                // Sidebar Active State
+                document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+                const map = { 'home': 'nav-home', 'schemes': 'nav-schemes', 'dashboard': 'nav-dashboard', 'healthcare': 'nav-health' };
+                if (map[r]) document.getElementById(map[r]).classList.add('active');
+
+                // Mobile Sidebar Close
+                if (window.innerWidth <= 900) {
+                    document.getElementById('sidebar').classList.remove('open');
+                    document.getElementById('sidebarOverlay').classList.remove('open');
+                }
+
+                // Re-trigger animations for new content
+                setTimeout(initAnimations, 100);
+            },
+            render: () => {
+                const root = document.getElementById('app-root');
+                window.scrollTo(0, 0);
+                if (Router.current === 'home') root.innerHTML = Views.home();
+                else if (Router.current === 'service_cat') root.innerHTML = Views.service_cat(Router.param);
+                else if (Router.current === 'healthcare') root.innerHTML = Views.healthcare();
+                else root.innerHTML = Views[Router.current]();
+            }
+        };
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('open');
+        }
+
+        // NEW: Healthcare View
+        Views.healthcare = () => {
+            const t = (k) => LangUtils.get(State.lang, k);
+            return `
+               <div class="container mt-8">
+                   <!-- Header -->
+                   <div class="glass-panel" style="background:#e8f5e9; border-bottom:4px solid #2e7d32; position:relative; overflow:hidden;">
+                        <div style="position:relative; z-index:2;">
+                            <h1 style="color:#1b5e20;">${t('h_title')}</h1>
+                            <p>${t('h_desc')}</p>
+                            <div class="trust-strip" style="background:transparent; justify-content:flex-start; padding:0; margin-top:1rem;">
+                                <div class="trust-item">🏥 Ayushman Bharat</div>
+                                <div class="trust-item">📄 ABHA Enabled</div>
+                                <div class="trust-item">💊 Jan Aushadhi</div>
+                            </div>
+                        </div>
+                   </div>
+                   
+                   <!-- Disclaimer -->
+                   <div class="mt-4 p-3" style="background:#fff3e0; border:1px solid #ffe0b2; border-radius:4px; font-size:0.85rem; color:#e65100;">
+                        ⚠️ <strong>${t('h_disc')}</strong>
+                   </div>
+
+                   <!-- Quick Actions Grid -->
+                   <div class="grid grid-4 mt-8 mb-8 text-center">
+                        <div class="glass-card" onclick="alert('Opening Health Schemes')">
+                            <div style="font-size:2rem; margin-bottom:0.5rem;">📄</div>
+                            <h4 data-i18n="sec_h_schemes">${t('sec_h_schemes')}</h4>
+                        </div>
+                         <div class="glass-card" onclick="alert('Opening Facility Finder')">
+                            <div style="font-size:2rem; margin-bottom:0.5rem;">🏥</div>
+                            <h4 data-i18n="sec_h_facilities">${t('sec_h_facilities')}</h4>
+                        </div>
+                         <div class="glass-card" onclick="alert('Opening Camp Registration')">
+                            <div style="font-size:2rem; margin-bottom:0.5rem;">🏕️</div>
+                            <h4 data-i18n="sec_h_camps">${t('sec_h_camps')}</h4>
+                        </div>
+                         <div class="glass-card" onclick="alert('Accessing ABHA Records')">
+                            <div style="font-size:2rem; margin-bottom:0.5rem;">📁</div>
+                            <h4 data-i18n="sec_h_records">${t('sec_h_records')}</h4>
+                        </div>
+                   </div>
+
+                   <div class="grid grid-2 mb-8">
+                       <!-- SCHEMES LIST -->
+                       <div>
+                           <h3 class="section-header" style="border-color:#2e7d32;">${t('sec_h_schemes')}</h3>
+                           ${State.data.schemes.filter(s => s.cat === 'cat_health').slice(0, 4).map(s => `
+                                <div class="glass-card mb-4" style="padding:1rem;">
+                                    <h4 style="margin:0; color:#1b5e20;">${s.title}</h4>
+                                    <p style="font-size:0.85rem; margin:0.3rem 0;">${s.desc}</p>
+                                    <button class="btn btn-sm" style="border:1px solid #2e7d32; color:#2e7d32; background:white;">Check Eligibility</button>
+                                </div>
+                           `).join('')}
+                       </div>
+
+                       <!-- FINDER & CAMPS -->
+                       <div>
+                            <h3 class="section-header" style="border-color:#2e7d32;">${t('sec_h_facilities')}</h3>
+                            <div class="glass-panel mb-4">
+                                <div class="flex gap-2 mb-2">
+                                    <select class="smart-select"><option>State</option><option>Delhi</option></select>
+                                    <select class="smart-select"><option>Type</option><option>Hospital</option><option>Pharmacy</option></select>
+                                </div>
+                                <button class="btn btn-primary w-full" style="background:#2e7d32;">Search Nearby</button>
+                                <div class="mt-4">
+                                    ${State.data.facilities.map(f => `
+                                        <div style="padding:0.5rem; border-bottom:1px solid #eee; display:flex; justify-content:space-between;">
+                                            <div><strong>${f.n}</strong><div style="font-size:0.75rem; color:#666;">${f.t} • ${f.d}</div></div>
+                                            <div style="color:#fbc02d;">★ ${f.r}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <h3 class="section-header" style="border-color:#2e7d32;">${t('sec_h_camps')}</h3>
+                             <div class="glass-panel">
+                                ${State.data.camps.slice(0, 3).map(c => `
+                                     <div style="background:#f9f9f9; padding:0.8rem; border-radius:4px; margin-bottom:0.5rem; border-left:3px solid ${c.s === 'Open' ? '#2e7d32' : '#999'};">
+                                        <div class="flex justify-between">
+                                            <span><strong>${c.t}</strong></span>
+                                            <span style="font-size:0.8rem; background:${c.s === 'Open' ? '#e8f5e9' : '#eee'}; padding:2px 6px; border-radius:4px;">${c.s}</span>
+                                        </div>
+                                        <div style="font-size:0.8rem; color:#555;">📍 ${c.l} • 📅 ${c.d}</div>
+                                        ${c.s === 'Open' ? `<button class="btn btn-sm mt-2" style="font-size:0.75rem; background:#2e7d32; color:white;" onclick="alert('Registered! Token sent to mobile.')">${t('btn_register')}</button>` : ''}
+                                     </div>
+                                `).join('')}
+                             </div>
+                       </div>
+                   </div>
+
+                   <!-- RECORDS (ABHA) DEMO -->
+                   <section class="container mb-8">
+                        <div class="glass-panel" style="background:linear-gradient(135deg, #fff3e0 0%, white 100%); border:1px solid #ffe0b2;">
+                            <div class="flex justify-between items-center">
+                                <h3>${t('sec_h_records')}</h3>
+                                <div style="font-size:0.8rem; color:#e65100;">Simulated Demo View</div>
+                            </div>
+                            <div class="flex gap-4 mt-4 items-center">
+                                <div style="width:60px; height:60px; background:#e65100; border-radius:50%; color:white; display:grid; place-items:center;">AV</div>
+                                <div>
+                                    <div style="font-weight:600;">Anjali Verma</div>
+                                    <div style="font-family:monospace;">ABHA: 91-8839-4444-12</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline" style="margin-left:auto;">Fetch from DigiLocker</button>
+                            </div>
+                            <div class="grid grid-4 mt-6 text-center">
+                                <div style="background:white; padding:1rem; border-radius:8px;">
+                                    <div style="font-size:1.5rem; color:#2e7d32;">💉 Fully</div>
+                                    <div style="font-size:0.8rem;">Vaccinated</div>
+                                </div>
+                                <div style="background:white; padding:1rem; border-radius:8px;">
+                                    <div style="font-size:1.5rem; color:#1565c0;">3</div>
+                                    <div style="font-size:0.8rem;">Lab Reports</div>
+                                </div>
+                                <div style="background:white; padding:1rem; border-radius:8px;">
+                                    <div style="font-size:1.5rem; color:#d84315;">1</div>
+                                    <div style="font-size:0.8rem;">Opd Visit</div>
+                                </div>
+                            </div>
+                        </div>
+                   </section>
+
+                   <!-- AI Assistant Button -->
+                   <div style="text-align:center; margin-bottom:3rem;">
+                        <button class="btn btn-primary" onclick="ChatBot.toggle()" style="border-radius:2rem; padding:0.8rem 2rem;">💬 Ask Health Assistant</button>
+                   </div>
+               </div>
+             `;
+        };
+
+        const Theme = {
+            toggle: () => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const newTheme = isDark ? 'light' : 'dark';
+                Theme.set(newTheme);
+            },
+            set: (t) => {
+                document.documentElement.setAttribute('data-theme', t);
+                localStorage.setItem('samriddhi_theme', t);
+                const btn = document.getElementById('themeToggle');
+                if (btn) btn.innerText = t === 'dark' ? '☀️' : '🌙';
+            },
+            init: () => {
+                const t = localStorage.getItem('samriddhi_theme') || 'light';
+                Theme.set(t);
+            }
+        };
+
+        function initAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-enter');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section, .glass-panel, .hero-content, .feature-card').forEach(el => {
+                el.style.opacity = '0'; // Initial state
+                observer.observe(el);
+            });
+        }
+
+        // Initialize
+        Lang.set('en');
+        Theme.init();
+        Router.go('home');
+
+        // Initial animation trigger
+        document.addEventListener('DOMContentLoaded', initAnimations);
+
+    </script>
+</body>
+
+</html>
