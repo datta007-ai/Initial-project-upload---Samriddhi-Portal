@@ -162,13 +162,13 @@ footer (optional)
 
 ### Examples
 ```
-feat(auth): add user authentication system
+feat(auth): Add user authentication system
 
-fix(api): resolve null pointer exception in data handler
+fix(api): Resolve null pointer exception in data handler
 
-docs(readme): update installation instructions
+docs(readme): Update installation instructions
 
-test(utils): add unit tests for helper functions
+test(utils): Add unit tests for helper functions
 ```
 
 ### Best Practices

@@ -54,9 +54,6 @@ target/
 .env.*.local
 
 # Package Manager Files
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
 .pnpm-debug.log
 
 # Test Coverage
