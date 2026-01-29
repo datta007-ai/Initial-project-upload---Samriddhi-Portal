@@ -172,8 +172,8 @@ test(utils): Add unit tests for helper functions
 ```
 
 ### Best Practices
-- Use present tense ("add feature" not "added feature")
-- Use imperative mood ("move cursor to..." not "moves cursor to...")
+- Use present tense ("Add feature" not "Added feature")
+- Use imperative mood ("Move cursor to..." not "Moves cursor to...")
 - Keep the subject line under 50 characters
 - Capitalize the subject line
 - Don't end the subject line with a period

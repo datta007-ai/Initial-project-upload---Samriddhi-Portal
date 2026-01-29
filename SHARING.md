@@ -49,7 +49,7 @@ Anyone with the link can:
 
 #### Enable Discussions
 1. Go to Settings → General → Features
-2. Check "Discussions"
+2. Check **Discussions**
 3. Share discussion topics with your community
 
 #### Add Topics/Tags
@@ -170,4 +170,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
 
 ---
 
-**Last Updated:** January 2026
+**Last Updated:** January 29, 2026
