@@ -23,7 +23,7 @@ Anyone with the link can:
 2. Scroll down to the **Danger Zone** section
 3. Click **Change repository visibility**
 4. Select **Make public**
-5. Type the repository name to confirm
+5. Type the full repository name to confirm: `datta007-ai/Initial-project-upload---Samriddhi-Portal`
 6. Click **I understand, change repository visibility**
 
 **Benefits of making it public:**

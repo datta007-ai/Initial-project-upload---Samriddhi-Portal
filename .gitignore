@@ -86,7 +86,6 @@ gradle-app.setting
 # Backup Files
 *.bak
 *.backup
-*~
 
 # Misc
 .cache/

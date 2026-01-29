@@ -92,8 +92,12 @@ Then go to GitHub and create a pull request from your branch.
 ## Project Structure
 ```
 Initial-project-upload---Samriddhi-Portal/
-├── README.md           # This file
-└── .gitattributes     # Git attributes for line ending normalization
+├── .gitattributes     # Git attributes for line ending normalization
+├── .gitignore         # Files and directories to ignore in git
+├── CONTRIBUTING.md    # Guidelines for contributing to the project
+├── LICENSE            # MIT License
+├── README.md          # This file - main project documentation
+└── SHARING.md         # Quick guide for sharing the repository
 ```
 
 ## Usage
