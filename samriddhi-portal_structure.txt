@@ -1,0 +1,16 @@
+samriddhi-portal/
+│
+├── index.html        ← (your current HTML, slightly cleaned)
+├── css/
+│   └── style.css     ← move <style> here
+│
+├── js/
+│   ├── app.js        ← routing + state
+│   ├── chatbot.js   ← ChatBot logic
+│   └── data.js      ← schemes / dictionary
+│
+├── assets/
+│   └── icons/ images (optional)
+│
+├── README.md
+└── LICENSE (optional)
